@@ -1,50 +1,53 @@
-
 class BookStore
-    def self.calculate_price(books)
-      Books.new(books).calculate_price
-    end
+  def self.calculate_price(books)
+    Books.new(books).calculate_price
+  end
 end
 
 class Books
+  BOOK_PRICE = 8.0
+  BOOK_DISCOUNT = {
+      1 => 0,
+      2 => 0.05,
+      3 => 0.1,
+      4 => 0.2,
+      5 => 0.25
+  }
 
   def initialize (books)
     @books = books
-    @unique_books = books.uniq
-    @dup_books = books #find_duplicates(@books)
     @total = 0.0
   end
 
   def calculate_price
-    return @total if @books.empty?
+    book_sets(@books).each do |set|
+      @total += price(set.size)
+    end
+    @total
+  end
 
-    puts "books: #{@books}"
-    puts "checking dupes: #{@dup_books} and next dupe: #{find_duplicates(@dup_books)}"
-
-    while find_duplicates(@dup_books).length > 0
-      @dup_books = find_duplicates(@dup_books)
-      @total = @dup_books.length == 1 ? 8 : discount((@dup_books.length * 8), @dup_books)
-      puts "total: #{@total}"
+    def book_sets(books)
+      books.each_with_object([]) do |book, book_sets|
+        add_book(book, book_sets)
+      end
     end
 
-    puts "unique: #{@unique_books} total: #{@unique_books.length * 8}"
-    @total + (discount((@unique_books.length * 8), @unique_books))
+    def add_book(book, book_sets)
+      # Set priority since sets of 5 have the largest discount
+      set_size_priority = { 5 => 0, 4 => 1, 3 => 4, 2 => 3, 1 => 2 }
 
-  end
-
-  def find_duplicates (books)
-    duplicates = books.select { |e| books.count(e) > 1 }
-    duplicates.uniq
-  end
-
-  def discount(total, books)
-    puts "finding discount: total: #{total} books: #{books}"
-    case books.length
-    when 1 then total
-    when 2 then total - (total * 0.05)
-    when 3 then total - (total * 0.10)
-    when 4 then total - (total * 0.20)
-    when 5 then total - (total * 0.25)
+      if book_sets.all? { |set| set.include?(book) }
+        book_sets << [book]
+      else
+        book_sets.max_by { |set| set_size_priority[set.size] }.push(book)
+      end
     end
-  end
 
+    def price(books)
+      books * BOOK_PRICE * (1 - BOOK_DISCOUNT[books])
+    end
+end
+
+module BookKeeping
+  VERSION = 0
 end

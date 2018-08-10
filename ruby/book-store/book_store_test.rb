@@ -39,7 +39,7 @@ class BookStoreTest < Minitest::Test
   end
 
   def test_two_groups_of_four_is_cheaper_than_group_of_five_plus_group_of_three
-    skip
+    # skip
     assert_equal 51.2, BookStore.calculate_price([1, 1, 2, 2, 3, 3, 4, 5])
   end
 
@@ -64,12 +64,12 @@ class BookStoreTest < Minitest::Test
   end
 
   def test_three_each_of_first_2_books_and_2_each_of_remaining_books
-    skip
+    # skip
     assert_equal 75.2, BookStore.calculate_price([1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 1, 2])
   end
 
   def test_four_groups_of_four_are_cheaper_than_two_groups_each_of_five_and_three
-    skip
+    # skip
     assert_equal 102.4, BookStore.calculate_price([1, 1, 2, 2, 3, 3, 4, 5, 1, 1, 2, 2, 3, 3, 4, 5])
   end
 
@@ -91,7 +91,7 @@ class BookStoreTest < Minitest::Test
   # http://ruby-doc.org/docs/ruby-doc-bundle/UsersGuide/rg/constants.html
 
   def test_bookkeeping
-    skip
+    # skip
     assert_equal 0, BookKeeping::VERSION
   end
 end
