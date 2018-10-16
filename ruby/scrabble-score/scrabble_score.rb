@@ -8,7 +8,7 @@ class Scrabble
       %w(k) => 5,
       %w(j x) => 8,
       %w(q z) => 10
-  }
+  }.freeze
 
   def initialize(word)
     @word = word || ""
@@ -19,8 +19,12 @@ class Scrabble
   end
 
   def score
-    return 0 if @word =~ /\A\s*\Z/
+    return 0 if invalid_word?
     @word.chars.sum{ |char| letter_values[char.downcase] }
+  end
+
+  def invalid_word?
+     @word =~ /\A\s*\Z/
   end
 
   def letter_values
