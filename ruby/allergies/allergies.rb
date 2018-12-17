@@ -20,8 +20,6 @@ class Allergies
   end
 
   def list
-    # VALUES.select {|allergen| allergic_to?(allergen)}.keys()
     VALUES.keys.select { |allergen| allergic_to?(allergen) }
   end
-
 end

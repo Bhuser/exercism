@@ -10,7 +10,7 @@ end
 
 class Word < String
   def anagram_of?(word)
-    letters(self) == letters(word) && (self != word)
+    (self != word) && (letters(self) == letters(word))
   end
 
   def letters(word)
